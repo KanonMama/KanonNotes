@@ -1,1 +1,199 @@
+#kanon_notes_host {
+    position: fixed;
+    right: 18px;
+    bottom: 86px;
+    z-index: 3100;
+    color: var(--SmartThemeBodyColor, #d8dde8);
+    font-size: 13px;
+    font-family: inherit;
+}
 
+.kn-host {
+    max-width: min(420px, calc(100vw - 36px));
+}
+
+.kn-launcher {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 999px;
+    background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.10), transparent 42%),
+        rgba(20, 24, 31, 0.58);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow:
+        0 12px 26px rgba(0,0,0,0.30),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: move;
+    user-select: none;
+}
+
+.kn-launch-btn,
+.kn-small-btn {
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.13);
+    background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.10), transparent 42%),
+        rgba(255,255,255,0.055);
+    color: var(--SmartThemeBodyColor, #d8dde8);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.kn-launch-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    font-size: 15px;
+}
+
+.kn-small-btn {
+    width: 28px;
+    height: 26px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.kn-launch-btn:hover,
+.kn-small-btn:hover {
+    background: rgba(255,255,255,0.105);
+    border-color: rgba(255,255,255,0.22);
+    color: var(--SmartThemeQuoteColor, #ffffff);
+    transform: translateY(-1px);
+}
+
+.kn-panel {
+    width: min(420px, calc(100vw - 36px));
+    max-height: min(560px, calc(100vh - 36px));
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.075), transparent 42%),
+        rgba(20, 24, 31, 0.66);
+    border: 1px solid rgba(255,255,255,0.13);
+    box-shadow:
+        0 18px 42px rgba(0,0,0,0.42),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.kn-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 11px;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.018));
+    cursor: move;
+    user-select: none;
+}
+
+.kn-title {
+    color: var(--SmartThemeQuoteColor, #ffffff);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+}
+
+.kn-subtitle {
+    margin-top: 2px;
+    color: var(--SmartThemeBodyColor, #aeb7c8);
+    opacity: 0.72;
+    font-size: 10px;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.kn-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.kn-body {
+    min-height: 0;
+    overflow: auto;
+    padding: 10px;
+}
+
+.kn-notes-input {
+    width: 100%;
+    min-height: 300px;
+    max-height: min(440px, calc(100vh - 150px));
+    resize: vertical;
+    box-sizing: border-box;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.13);
+    background:
+        linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.14)),
+        rgba(255,255,255,0.025);
+    color: var(--SmartThemeBodyColor, #d8dde8);
+    padding: 11px 12px;
+    font: inherit;
+    line-height: 1.45;
+}
+
+.kn-notes-input:focus {
+    outline: none;
+    border-color: rgba(255,255,255,0.25);
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.06);
+}
+
+.kn-dossier-body {
+    max-height: min(460px, calc(100vh - 145px));
+    color: var(--SmartThemeBodyColor, #d8dde8);
+    line-height: 1.5;
+    white-space: normal;
+}
+
+.kn-empty {
+    color: var(--SmartThemeBodyColor, #aeb7c8);
+    opacity: 0.72;
+    font-style: italic;
+}
+
+.kanon-notes-settings-hint {
+    margin: 6px 0 10px;
+    color: var(--SmartThemeBodyColor, #aaa);
+    opacity: 0.75;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+.kn-dragging,
+.kn-dragging * {
+    user-select: none !important;
+}
+
+@media (max-width: 760px) {
+    #kanon_notes_host {
+        right: 10px;
+        bottom: 76px;
+    }
+
+    .kn-panel {
+        width: calc(100vw - 20px);
+    }
+
+    .kn-notes-input {
+        min-height: 260px;
+    }
+}

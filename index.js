@@ -172,7 +172,11 @@ function KnGetOrCreateHost() {
 function KnRender() {
     const existing = document.getElementById("kanon_notes_host");
 
-    KnMountMobileButton();
+    if (KnIsMobileView()) {
+        existing?.remove();
+        KnRemoveMobileButton();
+        return;
+    }
 
     if (!gKnEnabled) {
         existing?.remove();
@@ -181,11 +185,6 @@ function KnRender() {
     }
 
     KnLoadNotes();
-
-    if (KnIsMobileView() && gKnPanelMode === "collapsed") {
-        existing?.remove();
-        return;
-    }
 
     const host = KnGetOrCreateHost();
 
@@ -202,10 +201,7 @@ function KnRender() {
     }
 
     KnWireHost(host);
-
-    if (!KnIsMobileView()) {
-        KnMakeDraggable(host);
-    }
+    KnMakeDraggable(host);
 }
 
 function KnWireHost(host) {
@@ -470,7 +466,6 @@ jQuery(async () => {
     setTimeout(KnRender, 250);
 
 window.addEventListener("resize", () => {
-    KnMountMobileButton();
     KnRender();
 });
     

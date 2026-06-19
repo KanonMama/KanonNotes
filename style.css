@@ -256,16 +256,22 @@
         display: flex !important;
         align-items: center;
         justify-content: center;
-        width: 34px;
-        height: 34px;
-        min-width: 34px;
-        min-height: 34px;
-        opacity: 0.85;
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        padding: 0 !important;
+        opacity: 0.9;
+        pointer-events: auto !important;
+        touch-action: manipulation;
+        z-index: 10;
     }
 
     #kanon_notes_mobile_button::before {
-        font-size: 20px;
+        font-size: 18px;
+        line-height: 1;
     }
+}
 
     #kanon_notes_host {
         position: fixed !important;

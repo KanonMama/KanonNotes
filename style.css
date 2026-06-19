@@ -298,3 +298,80 @@
         max-height: calc(72vh - 82px);
     }
 }
+
+#kanon_notes_mobile_host {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    #kanon_notes_mobile_host {
+        position: fixed !important;
+        right: 8px !important;
+        top: 70px !important;
+        width: min(78vw, 360px) !important;
+        height: calc(100dvh - 170px) !important;
+        max-width: 360px !important;
+        min-width: 260px !important;
+        z-index: 999999 !important;
+        display: block !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
+        transition: transform 0.25s ease !important;
+    }
+
+    #kanon_notes_mobile_host.kn-mobile-collapsed {
+        transform: translateX(calc(100% - 34px)) !important;
+    }
+
+    #kanon_notes_mobile_host.kn-mobile-open {
+        transform: translateX(0) !important;
+    }
+
+    .kn-mobile-toggle {
+        position: absolute !important;
+        left: -34px !important;
+        top: 120px !important;
+        width: 34px !important;
+        height: 112px !important;
+        z-index: 5 !important;
+        writing-mode: vertical-rl !important;
+        text-orientation: mixed !important;
+        border: 1px solid rgba(255,255,255,0.12) !important;
+        border-right: none !important;
+        border-radius: 8px 0 0 8px !important;
+        background:
+            radial-gradient(circle at top left, rgba(255,255,255,0.10), transparent 42%),
+            rgba(20, 24, 31, 0.78) !important;
+        color: var(--SmartThemeBodyColor, #d8dde8) !important;
+    }
+
+    .kn-mobile-shell {
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+    }
+
+    .kn-mobile-body {
+        width: 100% !important;
+        height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    #kanon_notes_mobile_host .kn-panel {
+        width: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        height: 100% !important;
+    }
+
+    #kanon_notes_mobile_host .kn-body {
+        max-height: none !important;
+        height: auto !important;
+    }
+
+    #kanon_notes_mobile_host .kn-notes-input {
+        min-height: 42vh !important;
+        max-height: none !important;
+    }
+}

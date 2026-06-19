@@ -1,1 +1,10 @@
-
+{
+  "display_name": "KanonNotes",
+  "loading_order": 210,
+  "requires": [],
+  "optional": [],
+  "js": "index.js",
+  "css": "style.css",
+  "version": "1.0.0",
+  "minimum_client_version": "1.13.0"
+}

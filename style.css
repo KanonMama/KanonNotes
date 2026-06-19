@@ -197,3 +197,52 @@
         min-height: 260px;
     }
 }
+
+@media (max-width: 760px) {
+    #kanon_notes_host {
+        left: 54px;
+        right: auto;
+        bottom: 58px;
+        top: auto;
+        max-width: calc(100vw - 62px);
+    }
+
+    #kanon_notes_host.kn-collapsed {
+        width: auto;
+    }
+
+    #kanon_notes_host.kn-open {
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 58px !important;
+        top: auto !important;
+        max-width: none;
+    }
+
+    #kanon_notes_host.kn-open .kn-panel {
+        width: auto;
+        max-width: none;
+        max-height: min(72vh, 560px);
+        border-radius: 16px 16px 12px 12px;
+    }
+
+    #kanon_notes_host.kn-open .kn-body {
+        max-height: calc(72vh - 52px);
+        overflow: auto;
+    }
+
+    #kanon_notes_host.kn-open .kn-notes-input {
+        min-height: 42vh;
+        max-height: calc(72vh - 82px);
+    }
+
+    #kanon_notes_host .kn-launcher {
+        padding: 6px;
+        gap: 6px;
+    }
+
+    #kanon_notes_host .kn-launch-btn {
+        width: 32px;
+        height: 32px;
+    }
+}

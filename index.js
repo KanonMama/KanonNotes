@@ -385,30 +385,37 @@ function KnMountMobileButton() {
     const leftSendForm = document.getElementById("leftSendForm");
     if (!leftSendForm) return;
 
-    const button = document.createElement("div");
+    const button = document.createElement("button");
     button.id = kKnMobileButtonId;
-    button.className = "fa-solid fa-book-open-reader interactable";
+    button.type = "button";
+    button.className = "menu_button fa-solid fa-book-open-reader interactable";
     button.title = "KanonNotes";
     button.tabIndex = 0;
-    button.setAttribute("role", "button");
-    button.dataset.i18n = "[title]KanonNotes";
+    button.setAttribute("aria-label", "KanonNotes");
 
+    const togglePanel = event => {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation?.();
+
+        gKnPanelMode = gKnPanelMode === "notes" ? "collapsed" : "notes";
+        KnSaveSettings();
+
+        setTimeout(() => {
+            KnRender();
+        }, 0);
+    };
+
+    button.addEventListener("pointerdown", togglePanel, { capture: true });
     button.addEventListener("click", event => {
         event.preventDefault();
         event.stopPropagation();
-
-        gKnPanelMode = gKnPanelMode === "notes" ? "collapsed" : "notes";
-        KnSaveSettings();
-        KnRender();
-    });
+        event.stopImmediatePropagation?.();
+    }, { capture: true });
 
     button.addEventListener("keydown", event => {
         if (event.key !== "Enter" && event.key !== " ") return;
-
-        event.preventDefault();
-        gKnPanelMode = gKnPanelMode === "notes" ? "collapsed" : "notes";
-        KnSaveSettings();
-        KnRender();
+        togglePanel(event);
     });
 
     const extensionsButton = document.getElementById("extensionsMenuButton");

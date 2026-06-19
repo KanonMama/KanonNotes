@@ -249,6 +249,7 @@ function KnSaveLayout(host) {
 }
 
 function KnMakeDraggable(host) {
+    if (KnIsMobileView()) return;
     if (!host) return;
 
     if (host._knDragCleanup) {

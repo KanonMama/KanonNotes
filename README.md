@@ -66,6 +66,3 @@ KanonNotes stores:
 
 Clearing browser storage may remove saved notes.
 
----
-
-## Currently only works on PC!!

@@ -100,28 +100,17 @@ function KnRenderMobilePanel() {
         ? "kn-mobile-host kn-mobile-open"
         : "kn-mobile-host kn-mobile-collapsed";
 
-    host.innerHTML = `
-        <button type="button" class="kn-mobile-toggle">
-            ${open ? "Свернуть" : "Открыть"}
-        </button>
-
-        <div class="kn-mobile-shell">
-            <div class="kn-mobile-body">
-                ${
-                    open
-                        ? (gKnPanelMode === "dossier" ? KnRenderDossierPanel() : KnRenderNotesPanel())
-                        : ""
-                }
-            </div>
+host.innerHTML = `
+    <div class="kn-mobile-shell">
+        <div class="kn-mobile-body">
+            ${
+                open
+                    ? (gKnPanelMode === "dossier" ? KnRenderDossierPanel() : KnRenderNotesPanel())
+                    : ""
+            }
         </div>
-    `;
-
-    host.querySelector(".kn-mobile-toggle")?.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        KnSetMobileOpen(!open);
-        KnRenderMobilePanel();
-    });
+    </div>
+`;
 
     host.querySelectorAll("[data-kn-open]").forEach(button => {
         button.addEventListener("click", (event) => {

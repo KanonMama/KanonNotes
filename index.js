@@ -8,6 +8,7 @@ const kKnPanelModeKey = `${kKnStoragePrefix}PanelMode`;
 const kKnPanelLayoutKey = `${kKnStoragePrefix}PanelLayout`;
 const kKnNotesPrefix = `${kKnStoragePrefix}Notes_`;
 const kKnMobileButtonId = "kanon_notes_mobile_button";
+const kKnMobileOpenKey = `${kKnStoragePrefix}MobileOpen`;
 
 let gKnEnabled = true;
 let gKnPanelMode = "collapsed";
@@ -69,6 +70,85 @@ function KnGetCurrentCharacterDossier() {
         name: character.name || context.name2 || "",
         description: character.description || ""
     };
+}
+
+function KnIsMobileOpen() {
+    return localStorage.getItem(kKnMobileOpenKey) === "true";
+}
+
+function KnSetMobileOpen(value) {
+    localStorage.setItem(kKnMobileOpenKey, String(Boolean(value)));
+}
+
+function KnRenderMobilePanel() {
+    if (!gKnEnabled || !KnIsMobileView()) {
+        document.getElementById("kanon_notes_mobile_host")?.remove();
+        return;
+    }
+
+    let host = document.getElementById("kanon_notes_mobile_host");
+
+    if (!host) {
+        host = document.createElement("div");
+        host.id = "kanon_notes_mobile_host";
+        document.body.appendChild(host);
+    }
+
+    const open = KnIsMobileOpen();
+
+    host.className = open
+        ? "kn-mobile-host kn-mobile-open"
+        : "kn-mobile-host kn-mobile-collapsed";
+
+    host.innerHTML = `
+        <button type="button" class="kn-mobile-toggle">
+            ${open ? "Свернуть" : "Открыть"}
+        </button>
+
+        <div class="kn-mobile-shell">
+            <div class="kn-mobile-body">
+                ${
+                    open
+                        ? (gKnPanelMode === "dossier" ? KnRenderDossierPanel() : KnRenderNotesPanel())
+                        : ""
+                }
+            </div>
+        </div>
+    `;
+
+    host.querySelector(".kn-mobile-toggle")?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        KnSetMobileOpen(!open);
+        KnRenderMobilePanel();
+    });
+
+    host.querySelectorAll("[data-kn-open]").forEach(button => {
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            gKnPanelMode = button.dataset.knOpen || "notes";
+            KnSaveSettings();
+            KnSetMobileOpen(true);
+            KnRenderMobilePanel();
+        });
+    });
+
+    host.querySelectorAll("[data-kn-collapse]").forEach(button => {
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            KnSetMobileOpen(false);
+            KnRenderMobilePanel();
+        });
+    });
+
+    host.querySelector(".kn-notes-input")?.addEventListener("input", event => {
+        gKnNotes = event.target.value || "";
+        KnSaveNotes();
+    });
 }
 
 function KnLoadSettings() {
@@ -172,11 +252,11 @@ function KnGetOrCreateHost() {
 function KnRender() {
     const existing = document.getElementById("kanon_notes_host");
 
-    if (KnIsMobileView()) {
-        existing?.remove();
-        KnRemoveMobileButton();
-        return;
-    }
+if (KnIsMobileView()) {
+    existing?.remove();
+    KnRenderMobilePanel();
+    return;
+}
 
     if (!gKnEnabled) {
         existing?.remove();
@@ -394,12 +474,13 @@ function KnMountMobileButton() {
         event.stopPropagation();
         event.stopImmediatePropagation?.();
 
-        gKnPanelMode = gKnPanelMode === "notes" ? "collapsed" : "notes";
-        KnSaveSettings();
+gKnPanelMode = "notes";
+KnSaveSettings();
+KnSetMobileOpen(!KnIsMobileOpen());
 
-        setTimeout(() => {
-            KnRender();
-        }, 0);
+setTimeout(() => {
+    KnRenderMobilePanel();
+}, 0);
     };
 
     button.addEventListener("pointerdown", togglePanel, { capture: true });

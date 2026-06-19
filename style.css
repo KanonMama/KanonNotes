@@ -72,8 +72,7 @@
 }
 
 .kn-panel {
-    width: 380px;
-    max-width: min(380px, calc(100vw - 36px));
+    width: min(420px, calc(100vw - 36px));
     max-height: min(560px, calc(100vh - 36px));
     display: flex;
     flex-direction: column;
@@ -257,36 +256,21 @@
         display: flex !important;
         align-items: center;
         justify-content: center;
-        width: 34px !important;
-        height: 34px !important;
-        min-width: 34px !important;
-        min-height: 34px !important;
-        padding: 0 !important;
-        opacity: 0.9;
-        pointer-events: auto !important;
-        touch-action: manipulation;
-        z-index: 10;
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        min-height: 34px;
+        opacity: 0.85;
     }
 
     #kanon_notes_mobile_button::before {
-        font-size: 18px;
-        line-height: 1;
+        font-size: 20px;
     }
-}
 
-#kanon_notes_host {
-    position: fixed;
-    right: 18px;
-    bottom: 86px;
-    left: auto;
-    top: auto;
-    width: auto;
-    max-width: 380px;
-    z-index: 3100;
-    color: var(--SmartThemeBodyColor, #d8dde8);
-    font-size: 13px;
-    font-family: inherit;
-}
+    #kanon_notes_host {
+        position: fixed !important;
+        z-index: 99999 !important;
+    }
 
     #kanon_notes_host.kn-open {
         left: 8px !important;

@@ -7,6 +7,7 @@ const kKnEnabledKey = `${kKnStoragePrefix}Enabled`;
 const kKnPanelModeKey = `${kKnStoragePrefix}PanelMode`;
 const kKnPanelLayoutKey = `${kKnStoragePrefix}PanelLayout`;
 const kKnNotesPrefix = `${kKnStoragePrefix}Notes_`;
+const kKnMobileButtonId = "kanon_notes_mobile_button";
 
 let gKnEnabled = true;
 let gKnPanelMode = "collapsed";
@@ -27,6 +28,10 @@ function KnEscapeHtml(value) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+}
+
+function KnIsMobileView() {
+    return window.matchMedia("(max-width: 760px)").matches;
 }
 
 function KnClamp(value, min, max) {
@@ -167,12 +172,20 @@ function KnGetOrCreateHost() {
 function KnRender() {
     const existing = document.getElementById("kanon_notes_host");
 
+    KnMountMobileButton();
+
     if (!gKnEnabled) {
         existing?.remove();
+        KnRemoveMobileButton();
         return;
     }
 
     KnLoadNotes();
+
+    if (KnIsMobileView() && gKnPanelMode === "collapsed") {
+        existing?.remove();
+        return;
+    }
 
     const host = KnGetOrCreateHost();
 
@@ -189,7 +202,10 @@ function KnRender() {
     }
 
     KnWireHost(host);
-    KnMakeDraggable(host);
+
+    if (!KnIsMobileView()) {
+        KnMakeDraggable(host);
+    }
 }
 
 function KnWireHost(host) {
@@ -356,6 +372,54 @@ function KnSyncSettingsControls() {
     $("#kanon_notes_enabled").prop("checked", gKnEnabled);
 }
 
+
+function KnRemoveMobileButton() {
+    document.getElementById(kKnMobileButtonId)?.remove();
+}
+
+function KnMountMobileButton() {
+    KnRemoveMobileButton();
+
+    if (!gKnEnabled || !KnIsMobileView()) return;
+
+    const leftSendForm = document.getElementById("leftSendForm");
+    if (!leftSendForm) return;
+
+    const button = document.createElement("div");
+    button.id = kKnMobileButtonId;
+    button.className = "fa-solid fa-book-open-reader interactable";
+    button.title = "KanonNotes";
+    button.tabIndex = 0;
+    button.setAttribute("role", "button");
+    button.dataset.i18n = "[title]KanonNotes";
+
+    button.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        gKnPanelMode = gKnPanelMode === "notes" ? "collapsed" : "notes";
+        KnSaveSettings();
+        KnRender();
+    });
+
+    button.addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+
+        event.preventDefault();
+        gKnPanelMode = gKnPanelMode === "notes" ? "collapsed" : "notes";
+        KnSaveSettings();
+        KnRender();
+    });
+
+    const extensionsButton = document.getElementById("extensionsMenuButton");
+
+    if (extensionsButton?.parentElement === leftSendForm) {
+        extensionsButton.after(button);
+    } else {
+        leftSendForm.appendChild(button);
+    }
+}
+
 function KnWireSettings() {
     $("#kanon_notes_enabled").on("change", function () {
         gKnEnabled = $(this).is(":checked");
@@ -366,6 +430,7 @@ function KnWireSettings() {
 
 function KnOnChatChanged() {
     KnLoadNotes();
+    KnMountMobileButton();
     KnRender();
 }
 
@@ -397,5 +462,10 @@ jQuery(async () => {
 
     setTimeout(KnRender, 250);
 
+window.addEventListener("resize", () => {
+    KnMountMobileButton();
+    KnRender();
+});
+    
     console.log("[KanonNotes] ready");
 });

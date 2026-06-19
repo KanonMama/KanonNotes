@@ -65,3 +65,7 @@ KanonNotes stores:
 - notes per chat.
 
 Clearing browser storage may remove saved notes.
+
+---
+
+## Currently only works on PC!!
